@@ -162,9 +162,11 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\List\Controllers\ListController.cs" />
     <Compile Include="Areas\List\ListAreaRegistration.cs" />
+    <Compile Include="Areas\List\Models\ListViewModel.cs" />
     <Compile Include="Context\ApplicationDataContext.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Data\Enumeration.cs" />
     <Compile Include="EntityFramework\GWiLi.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -247,7 +249,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\List\Models\" />
     <Folder Include="Areas\List\Views\Shared\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
