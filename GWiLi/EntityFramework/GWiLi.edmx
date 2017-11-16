@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GWiLiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="List">
+          <Key>
+            <PropertyRef Name="ListId" />
+          </Key>
+          <Property Name="ListId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OwnerId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ListStatusId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ListStatus">
+          <Key>
+            <PropertyRef Name="ListStatusId" />
+          </Key>
+          <Property Name="ListStatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_List_ListStatus">
+          <End Role="ListStatus" Type="Self.ListStatus" Multiplicity="1" />
+          <End Role="List" Type="Self.List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ListStatus">
+              <PropertyRef Name="ListStatusId" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="ListStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GWiLiModelStoreContainer">
+          <EntitySet Name="List" EntityType="Self.List" Schema="List" store:Type="Tables" />
+          <EntitySet Name="ListStatus" EntityType="Self.ListStatus" Schema="List" store:Type="Tables" />
+          <AssociationSet Name="FK_List_ListStatus" Association="Self.FK_List_ListStatus">
+            <End Role="ListStatus" EntitySet="ListStatus" />
+            <End Role="List" EntitySet="List" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GWiLiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="GWiLiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="List" EntityType="GWiLiModel.List" />
+          <EntitySet Name="ListStatus" EntityType="GWiLiModel.ListStatus" />
+          <AssociationSet Name="FK_List_ListStatus" Association="GWiLiModel.FK_List_ListStatus">
+            <End Role="ListStatus" EntitySet="ListStatus" />
+            <End Role="List" EntitySet="List" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="List">
+          <Key>
+            <PropertyRef Name="ListId" />
+          </Key>
+          <Property Name="ListId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OwnerId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ListStatusId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ListStatus" Relationship="GWiLiModel.FK_List_ListStatus" FromRole="List" ToRole="ListStatus" />
+        </EntityType>
+        <EntityType Name="ListStatus">
+          <Key>
+            <PropertyRef Name="ListStatusId" />
+          </Key>
+          <Property Name="ListStatusId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Lists" Relationship="GWiLiModel.FK_List_ListStatus" FromRole="ListStatus" ToRole="List" />
+        </EntityType>
+        <Association Name="FK_List_ListStatus">
+          <End Type="GWiLiModel.ListStatus" Role="ListStatus" Multiplicity="1" />
+          <End Type="GWiLiModel.List" Role="List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ListStatus">
+              <PropertyRef Name="ListStatusId" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="ListStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GWiLiModelStoreContainer" CdmEntityContainer="GWiLiEntities">
+          <EntitySetMapping Name="List">
+            <EntityTypeMapping TypeName="GWiLiModel.List">
+              <MappingFragment StoreEntitySet="List">
+                <ScalarProperty Name="ListStatusId" ColumnName="ListStatusId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="ListId" ColumnName="ListId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListStatus">
+            <EntityTypeMapping TypeName="GWiLiModel.ListStatus">
+              <MappingFragment StoreEntitySet="ListStatus">
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="ListStatusId" ColumnName="ListStatusId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

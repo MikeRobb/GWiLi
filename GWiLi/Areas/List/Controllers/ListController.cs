@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GWiLi.Controllers;
+using GWiLi.EntityFramework;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace GWiLi.Areas.List.Controllers
 {
-    public class ListController : Controller
+    public class ListController : BaseController
     {
         public ActionResult Index()
         {
-            return View();
-        }
+            var lists = Database.List.ToList();
 
-        public ActionResult GetAllMyLists()
-        {
-            return View("Index");
+            return View();
         }
     }
 }

@@ -6,12 +6,11 @@ using System.Web.Mvc;
 
 namespace GWiLi.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
-            ViewBag.Title="My Bootstrap Site";
-return View();
+            return View();
         }
     }
 }

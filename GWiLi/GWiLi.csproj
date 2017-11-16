@@ -44,6 +44,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -161,7 +163,29 @@
     <Compile Include="Areas\List\Controllers\ListController.cs" />
     <Compile Include="Areas\List\ListAreaRegistration.cs" />
     <Compile Include="Context\ApplicationDataContext.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="EntityFramework\GWiLi.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GWiLi.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GWiLi.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GWiLi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\GWiLi.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GWiLi.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\List.cs">
+      <DependentUpon>GWiLi.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ListStatus.cs">
+      <DependentUpon>GWiLi.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -179,6 +203,17 @@
     <Content Include="css\bootstrap.css" />
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\theme.css" />
+    <Content Include="css\thumbnail-gallery.css" />
+    <Content Include="EntityFramework\GWiLi.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GWiLi.edmx</DependentUpon>
+      <LastGenOutput>GWiLi.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EntityFramework\GWiLi.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GWiLi.edmx</DependentUpon>
+      <LastGenOutput>GWiLi.cs</LastGenOutput>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -186,6 +221,13 @@
     <Content Include="js\bootstrap.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="EntityFramework\GWiLi.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GWiLi.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="EntityFramework\GWiLi.edmx.diagram">
+      <DependentUpon>GWiLi.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -200,10 +242,14 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_AnonNav.cshtml" />
+    <Content Include="Views\Shared\_AuthNav.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\List\Models\" />
+    <Folder Include="Areas\List\Views\Shared\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -225,13 +271,13 @@
     <Content Include="Areas\List\Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\List\Views\Shared\_Layout.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Areas\List\Views\List\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

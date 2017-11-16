@@ -18,7 +18,7 @@ namespace GWiLi.Areas.List
             context.MapRoute(
                 "MyList_default",
                 "MyList",
-                new { controller = "List", action = "GetAllMyLists", id = UrlParameter.Optional }
+                new { controller = "List", action = "Index", id = UrlParameter.Optional }
             );
             context.MapRoute(
                 "List_default",
