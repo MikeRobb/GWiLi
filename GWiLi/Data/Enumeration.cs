@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace GWiLi.Data
+﻿namespace GWiLi.Data
 {
-    public enum ListStatusEnum
+    public enum StatusEnum
     {
         Active = 1,
         Inactive = 2,
         Deleted = 3,
+    }
+
+    public enum ListPrivacyEnum
+    {
+        Private = 1,
+        Public = 2,
     }
 }

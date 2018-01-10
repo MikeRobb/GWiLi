@@ -1,0 +1,766 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GWiLiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DisplayName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentCategoryId" Type="int" />
+          <Property Name="DisplayName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="ListId" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+          <Property Name="DisplayName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="LocationDisplayName" Type="varchar" MaxLength="50" />
+          <Property Name="LocationUri" Type="varchar" MaxLength="255" />
+          <Property Name="Price" Type="varchar" MaxLength="50" />
+          <Property Name="Metadata" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ItemActivity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemId" Type="int" Nullable="false" />
+          <Property Name="BuyerUserId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="List">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="OwnerId" Type="int" Nullable="false" />
+          <Property Name="PrivacyId" Type="int" Nullable="false" />
+          <Property Name="DisplayName" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ListUsers">
+          <Key>
+            <PropertyRef Name="ListId" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="ListId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Privacy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DisplayName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LoginAttempt">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Attempt" Type="datetime" Nullable="false" />
+          <Property Name="IP" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Success" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="MiddleName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Hash" Type="varbinary" MaxLength="20" />
+          <Property Name="Salt" Type="varbinary" MaxLength="16" />
+        </EntityType>
+        <EntityType Name="UserEmail">
+          <Key>
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="DateAdded" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Category_Category1">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Category1" Type="Self.Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Category1">
+              <PropertyRef Name="ParentCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Item_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Item_List">
+          <End Role="List" Type="Self.List" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="List">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="ListId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Item_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemActivity_Item">
+          <End Role="Item" Type="Self.Item" Multiplicity="1" />
+          <End Role="ItemActivity" Type="Self.ItemActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ItemActivity">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemActivity_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="ItemActivity" Type="Self.ItemActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ItemActivity">
+              <PropertyRef Name="BuyerUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_List_Privacy">
+          <End Role="Privacy" Type="Self.Privacy" Multiplicity="1" />
+          <End Role="List" Type="Self.List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Privacy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="PrivacyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_List_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="List" Type="Self.List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_List_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="List" Type="Self.List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListUsers_List">
+          <End Role="List" Type="Self.List" Multiplicity="1" />
+          <End Role="ListUsers" Type="Self.ListUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="List">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ListUsers">
+              <PropertyRef Name="ListId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ListUsers_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="ListUsers" Type="Self.ListUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ListUsers">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserEmail_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserEmail" Type="Self.UserEmail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserEmail">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GWiLiModelStoreContainer">
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="GList" store:Type="Tables" />
+          <EntitySet Name="Item" EntityType="Self.Item" Schema="GList" store:Type="Tables" />
+          <EntitySet Name="ItemActivity" EntityType="Self.ItemActivity" Schema="GList" store:Type="Tables" />
+          <EntitySet Name="List" EntityType="Self.List" Schema="GList" store:Type="Tables" />
+          <EntitySet Name="ListUsers" EntityType="Self.ListUsers" Schema="GList" store:Type="Tables" />
+          <EntitySet Name="Privacy" EntityType="Self.Privacy" Schema="GList" store:Type="Tables" />
+          <EntitySet Name="LoginAttempt" EntityType="Self.LoginAttempt" Schema="GUser" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="GUser" store:Type="Tables" />
+          <EntitySet Name="UserEmail" EntityType="Self.UserEmail" Schema="GUser" store:Type="Tables" />
+          <AssociationSet Name="FK_Category_Category1" Association="Self.FK_Category_Category1">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Category1" EntitySet="Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Item_Category" Association="Self.FK_Item_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Item_List" Association="Self.FK_Item_List">
+            <End Role="List" EntitySet="List" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Item_Status" Association="Self.FK_Item_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemActivity_Item" Association="Self.FK_ItemActivity_Item">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="ItemActivity" EntitySet="ItemActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemActivity_User" Association="Self.FK_ItemActivity_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="ItemActivity" EntitySet="ItemActivity" />
+          </AssociationSet>
+          <AssociationSet Name="FK_List_Privacy" Association="Self.FK_List_Privacy">
+            <End Role="Privacy" EntitySet="Privacy" />
+            <End Role="List" EntitySet="List" />
+          </AssociationSet>
+          <AssociationSet Name="FK_List_Status" Association="Self.FK_List_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="List" EntitySet="List" />
+          </AssociationSet>
+          <AssociationSet Name="FK_List_User" Association="Self.FK_List_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="List" EntitySet="List" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListUsers_List" Association="Self.FK_ListUsers_List">
+            <End Role="List" EntitySet="List" />
+            <End Role="ListUsers" EntitySet="ListUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ListUsers_User" Association="Self.FK_ListUsers_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="ListUsers" EntitySet="ListUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Status" Association="Self.FK_User_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserEmail_User" Association="Self.FK_UserEmail_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserEmail" EntitySet="UserEmail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GWiLiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="ItemsWithStatus" Relationship="Self.FK_Item_Status" FromRole="Status" ToRole="Item" />
+          <NavigationProperty Name="Lists" Relationship="GWiLiModel.FK_List_Status" FromRole="Status" ToRole="List" />
+          <NavigationProperty Name="Users" Relationship="GWiLiModel.FK_User_Status" FromRole="Status" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="ListId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <Property Name="DisplayName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="LocationDisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LocationUri" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Metadata" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_Item_Status" FromRole="Item" ToRole="Status" />
+          <NavigationProperty Name="List" Relationship="GWiLiModel.FK_Item_List" FromRole="Item" ToRole="List" />
+          <NavigationProperty Name="ItemActivities" Relationship="GWiLiModel.FK_ItemActivity_Item" FromRole="Item" ToRole="ItemActivity" />
+          <NavigationProperty Name="Category" Relationship="GWiLiModel.FK_Item_Category" FromRole="Item" ToRole="Category" />
+        </EntityType>
+        <EntityType Name="Privacy">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Lists" Relationship="GWiLiModel.FK_List_Privacy" FromRole="Privacy" ToRole="List" />
+        </EntityType>
+        <Association Name="FK_Item_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GWiLiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="Items" EntityType="Self.Item" />
+          <EntitySet Name="Privacies" EntityType="Self.Privacy" />
+          <AssociationSet Name="FK_Item_Status" Association="Self.FK_Item_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <EntitySet Name="Lists" EntityType="GWiLiModel.List" />
+          <AssociationSet Name="FK_List_Status" Association="GWiLiModel.FK_List_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="List" EntitySet="Lists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Item_List" Association="GWiLiModel.FK_Item_List">
+            <End Role="List" EntitySet="Lists" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_List_Privacy" Association="GWiLiModel.FK_List_Privacy">
+            <End Role="Privacy" EntitySet="Privacies" />
+            <End Role="List" EntitySet="Lists" />
+          </AssociationSet>
+          <EntitySet Name="ItemActivities" EntityType="GWiLiModel.ItemActivity" />
+          <AssociationSet Name="FK_ItemActivity_Item" Association="GWiLiModel.FK_ItemActivity_Item">
+            <End Role="Item" EntitySet="Items" />
+            <End Role="ItemActivity" EntitySet="ItemActivities" />
+          </AssociationSet>
+          <EntitySet Name="Categories" EntityType="GWiLiModel.Category" />
+          <AssociationSet Name="FK_Category_Category1" Association="GWiLiModel.FK_Category_Category1">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Category1" EntitySet="Categories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Item_Category" Association="GWiLiModel.FK_Item_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="GWiLiModel.User" />
+          <AssociationSet Name="FK_User_Status" Association="GWiLiModel.FK_User_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemActivity_User" Association="GWiLiModel.FK_ItemActivity_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="ItemActivity" EntitySet="ItemActivities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_List_User" Association="GWiLiModel.FK_List_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="List" EntitySet="Lists" />
+          </AssociationSet>
+          <AssociationSet Name="ListUsers" Association="GWiLiModel.ListUsers">
+            <End Role="List" EntitySet="Lists" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="UserEmails" EntityType="GWiLiModel.UserEmail" />
+          <AssociationSet Name="FK_UserEmail_User" Association="GWiLiModel.FK_UserEmail_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserEmail" EntitySet="UserEmails" />
+          </AssociationSet>
+          <EntitySet Name="LoginAttempts" EntityType="GWiLiModel.LoginAttempt" />
+          </EntityContainer>
+        <EntityType Name="List">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="OwnerId" Type="Int32" Nullable="false" />
+          <Property Name="PrivacyId" Type="Int32" Nullable="false" />
+          <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Status" Relationship="GWiLiModel.FK_List_Status" FromRole="List" ToRole="Status" />
+          <NavigationProperty Name="Items" Relationship="GWiLiModel.FK_Item_List" FromRole="List" ToRole="Item" />
+          <NavigationProperty Name="Privacy" Relationship="GWiLiModel.FK_List_Privacy" FromRole="List" ToRole="Privacy" />
+          <NavigationProperty Name="Owner" Relationship="GWiLiModel.FK_List_User" FromRole="List" ToRole="User" />
+          <NavigationProperty Name="Participants" Relationship="GWiLiModel.ListUsers" FromRole="List" ToRole="User" />
+          </EntityType>
+        <Association Name="FK_List_Status">
+          <End Type="GWiLiModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="GWiLiModel.List" Role="List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Item_List">
+          <End Type="GWiLiModel.List" Role="List" Multiplicity="1" />
+          <End Type="GWiLiModel.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="List">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="ListId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_List_Privacy">
+          <End Type="GWiLiModel.Privacy" Role="Privacy" Multiplicity="1" />
+          <End Type="GWiLiModel.List" Role="List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Privacy">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="PrivacyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ItemActivity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemId" Type="Int32" Nullable="false" />
+          <Property Name="BuyerUserId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="GWiLiModel.FK_ItemActivity_Item" FromRole="ItemActivity" ToRole="Item" />
+          <NavigationProperty Name="User" Relationship="GWiLiModel.FK_ItemActivity_User" FromRole="ItemActivity" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_ItemActivity_Item">
+          <End Type="GWiLiModel.Item" Role="Item" Multiplicity="1" />
+          <End Type="GWiLiModel.ItemActivity" Role="ItemActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ItemActivity">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentCategoryId" Type="Int32" />
+          <Property Name="DisplayName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Children" Relationship="GWiLiModel.FK_Category_Category1" FromRole="Category" ToRole="Category1" />
+          <NavigationProperty Name="Parent" Relationship="GWiLiModel.FK_Category_Category1" FromRole="Category1" ToRole="Category" />
+          <NavigationProperty Name="ItemsInCategory" Relationship="GWiLiModel.FK_Item_Category" FromRole="Category" ToRole="Item" />
+        </EntityType>
+        <Association Name="FK_Category_Category1">
+          <End Type="GWiLiModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="GWiLiModel.Category" Role="Category1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Category1">
+              <PropertyRef Name="ParentCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Item_Category">
+          <End Type="GWiLiModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="GWiLiModel.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Hash" Type="Binary" MaxLength="20" FixedLength="false" />
+          <Property Name="Salt" Type="Binary" MaxLength="16" FixedLength="false" />
+          <NavigationProperty Name="Status" Relationship="GWiLiModel.FK_User_Status" FromRole="User" ToRole="Status" />
+          <NavigationProperty Name="ItemActivities" Relationship="GWiLiModel.FK_ItemActivity_User" FromRole="User" ToRole="ItemActivity" />
+          <NavigationProperty Name="OwnedLists" Relationship="GWiLiModel.FK_List_User" FromRole="User" ToRole="List" />
+          <NavigationProperty Name="ParticipationLists" Relationship="GWiLiModel.ListUsers" FromRole="User" ToRole="List" />
+          <NavigationProperty Name="UserEmails" Relationship="GWiLiModel.FK_UserEmail_User" FromRole="User" ToRole="UserEmail" />
+        </EntityType>
+        <Association Name="FK_User_Status">
+          <End Type="GWiLiModel.Status" Role="Status" Multiplicity="1" />
+          <End Type="GWiLiModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemActivity_User">
+          <End Type="GWiLiModel.User" Role="User" Multiplicity="1" />
+          <End Type="GWiLiModel.ItemActivity" Role="ItemActivity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ItemActivity">
+              <PropertyRef Name="BuyerUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_List_User">
+          <End Type="GWiLiModel.User" Role="User" Multiplicity="1" />
+          <End Type="GWiLiModel.List" Role="List" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="List">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ListUsers">
+          <End Type="GWiLiModel.List" Role="List" Multiplicity="*" />
+          <End Type="GWiLiModel.User" Role="User" Multiplicity="*" />
+        </Association>
+        <EntityType Name="UserEmail">
+          <Key>
+            <PropertyRef Name="Email" />
+          </Key>
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="DateAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="GWiLiModel.FK_UserEmail_User" FromRole="UserEmail" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UserEmail_User">
+          <End Type="GWiLiModel.User" Role="User" Multiplicity="1" />
+          <End Type="GWiLiModel.UserEmail" Role="UserEmail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserEmail">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="LoginAttempt">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Attempt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IP" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Success" Type="Boolean" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GWiLiModelStoreContainer" CdmEntityContainer="GWiLiEntities">
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="GWiLiModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="GWiLiModel.Item">
+              <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="ListId" ColumnName="ListId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="LocationDisplayName" ColumnName="LocationDisplayName" />
+                <ScalarProperty Name="LocationUri" ColumnName="LocationUri" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Metadata" ColumnName="Metadata" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Privacies">
+            <EntityTypeMapping TypeName="GWiLiModel.Privacy">
+              <MappingFragment StoreEntitySet="Privacy">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lists">
+            <EntityTypeMapping TypeName="GWiLiModel.List">
+              <MappingFragment StoreEntitySet="List">
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="PrivacyId" ColumnName="PrivacyId" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemActivities">
+            <EntityTypeMapping TypeName="GWiLiModel.ItemActivity">
+              <MappingFragment StoreEntitySet="ItemActivity">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="BuyerUserId" ColumnName="BuyerUserId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="GWiLiModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="GWiLiModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Hash" ColumnName="Hash" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ListUsers" TypeName="GWiLiModel.ListUsers" StoreEntitySet="ListUsers">
+            <EndProperty Name="User">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="List">
+              <ScalarProperty Name="Id" ColumnName="ListId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="UserEmails">
+            <EntityTypeMapping TypeName="GWiLiModel.UserEmail">
+              <MappingFragment StoreEntitySet="UserEmail">
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LoginAttempts">
+            <EntityTypeMapping TypeName="GWiLiModel.LoginAttempt">
+              <MappingFragment StoreEntitySet="LoginAttempt">
+                <ScalarProperty Name="Success" ColumnName="Success" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="Attempt" ColumnName="Attempt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

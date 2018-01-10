@@ -12,27 +12,24 @@ namespace GWiLi.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class List
+    public partial class Status
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public List()
+        public Status()
         {
-            this.Items = new HashSet<Item>();
-            this.Participants = new HashSet<User>();
+            this.ItemsWithStatus = new HashSet<Item>();
+            this.Lists = new HashSet<List>();
+            this.Users = new HashSet<User>();
         }
     
         public int Id { get; set; }
-        public int StatusId { get; set; }
-        public int OwnerId { get; set; }
-        public int PrivacyId { get; set; }
         public string DisplayName { get; set; }
     
-        public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Item> Items { get; set; }
-        public virtual Privacy Privacy { get; set; }
-        public virtual User Owner { get; set; }
+        public virtual ICollection<Item> ItemsWithStatus { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Participants { get; set; }
+        public virtual ICollection<List> Lists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User> Users { get; set; }
     }
 }

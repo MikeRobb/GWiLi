@@ -12,15 +12,15 @@ namespace GWiLi.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class ListStatus
+    public partial class Privacy
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ListStatus()
+        public Privacy()
         {
             this.Lists = new HashSet<List>();
         }
     
-        public int ListStatusId { get; set; }
+        public int Id { get; set; }
         public string DisplayName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -12,27 +12,23 @@ namespace GWiLi.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class List
+    public partial class Category
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public List()
+        public Category()
         {
-            this.Items = new HashSet<Item>();
-            this.Participants = new HashSet<User>();
+            this.Children = new HashSet<Category>();
+            this.ItemsInCategory = new HashSet<Item>();
         }
     
         public int Id { get; set; }
-        public int StatusId { get; set; }
-        public int OwnerId { get; set; }
-        public int PrivacyId { get; set; }
+        public Nullable<int> ParentCategoryId { get; set; }
         public string DisplayName { get; set; }
     
-        public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Item> Items { get; set; }
-        public virtual Privacy Privacy { get; set; }
-        public virtual User Owner { get; set; }
+        public virtual ICollection<Category> Children { get; set; }
+        public virtual Category Parent { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Participants { get; set; }
+        public virtual ICollection<Item> ItemsInCategory { get; set; }
     }
 }

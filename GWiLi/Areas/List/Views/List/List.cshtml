@@ -1,0 +1,98 @@
+﻿@model GWiLi.Areas.List.Models.ListViewModel
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>@Model.DisplayName</h2>
+
+<p>
+    Owner: @Model.Owner
+</p>
+<p>
+    Status: @Model.Status
+</p>
+<p>
+    Privacy: @Model.Privacy
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Category
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Location
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Info
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Items)
+{
+    <tr class="gwili-@(item.Quantity == 0 ? "strike" : "norma")l">
+        <th>
+            @item.Category
+        </th>
+        <th>
+            @item.Name
+        </th>
+        <th>
+            @item.Quantity
+        </th>
+        <th>
+            @Html.Raw(item.LocationHref)
+        </th>
+        <th>
+            @item.Price
+        </th>
+        <th>
+            @item.Metadata
+        </th>
+        <th>
+            @Html.ActionLink("Purchase One (1)", "MarkItemBought", new { id = @item.ItemId })
+        </th>
+    </tr>
+}
+    @using (Html.BeginForm("AddItem", "List", FormMethod.Post, new { listId = Model.ListId }))
+    {
+        @Html.Hidden("listId", Model.ListId)
+        <tr>
+            <th>
+                @Html.DropDownList("newCategory", Model.CategorySelectList)
+            </th>
+            <th>
+                @Html.TextBox("newName")
+            </th>
+            <th>
+                @Html.TextBox("newQuantity")
+            </th>
+            <th>
+                                @Html.TextBox("newLink")
+                                @Html.TextBox("newUri")
+            </th>
+            <th>
+
+                @Html.TextBox("newPrice")
+            </th>
+            <th>
+
+                @Html.TextBox("newMetadata")
+            </th>
+            <th>
+                <button type="submit" name="Submit">Submit</button>
+            </th>
+        </tr>
+    }
+
+</table>

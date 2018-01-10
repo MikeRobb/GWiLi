@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8a0bc51f61ad42d59d90fadf461bb115" Name="Diagram1">
+        <EntityTypeShape EntityType="GWiLiModel.Status" Width="1.5" PointX="7.625" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GWiLiModel.Item" Width="1.5" PointX="5" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GWiLiModel.Privacy" Width="1.5" PointX="8.5" PointY="3.125" IsExpanded="true" />
+        <AssociationConnector Association="GWiLiModel.FK_Item_Status" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="GWiLiModel.List" Width="1.5" PointX="3.25" PointY="3.125" />
+        <AssociationConnector Association="GWiLiModel.FK_List_Status" />
+        <AssociationConnector Association="GWiLiModel.FK_Item_List" />
+        <AssociationConnector Association="GWiLiModel.FK_List_Privacy" />
+        <EntityTypeShape EntityType="GWiLiModel.ItemActivity" Width="1.5" PointX="5" PointY="7.125" />
+        <AssociationConnector Association="GWiLiModel.FK_ItemActivity_Item" />
+        <EntityTypeShape EntityType="GWiLiModel.Category" Width="1.5" PointX="6.75" PointY="3.125" />
+        <AssociationConnector Association="GWiLiModel.FK_Category_Category1" />
+        <AssociationConnector Association="GWiLiModel.FK_Item_Category" />
+        <EntityTypeShape EntityType="GWiLiModel.User" Width="1.5" PointX="0.75" PointY="0.5" />
+        <AssociationConnector Association="GWiLiModel.FK_User_Status" />
+        <AssociationConnector Association="GWiLiModel.FK_ItemActivity_User" />
+        <AssociationConnector Association="GWiLiModel.FK_List_User" />
+        <AssociationConnector Association="GWiLiModel.ListUsers" />
+        <EntityTypeShape EntityType="GWiLiModel.UserEmail" Width="1.5" PointX="2.875" PointY="0.5" />
+        <AssociationConnector Association="GWiLiModel.FK_UserEmail_User" />
+        <EntityTypeShape EntityType="GWiLiModel.LoginAttempt" Width="1.5" PointX="0.75" PointY="4.125" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

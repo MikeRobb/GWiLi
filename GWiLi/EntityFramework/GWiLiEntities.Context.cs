@@ -25,7 +25,14 @@ namespace GWiLi.EntityFramework
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<List> List { get; set; }
-        public virtual DbSet<ListStatus> ListStatus { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
+        public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<Privacy> Privacies { get; set; }
+        public virtual DbSet<List> Lists { get; set; }
+        public virtual DbSet<ItemActivity> ItemActivities { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserEmail> UserEmails { get; set; }
+        public virtual DbSet<LoginAttempt> LoginAttempts { get; set; }
     }
 }

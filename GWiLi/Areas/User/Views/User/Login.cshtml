@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+@model GWiLi.Areas.User.Models.LoginModel
+
+<h2>Login</h2>
+
+@if (Model.Success.HasValue)
+{
+    if (Model.Success.Value)
+    {
+        <div>SUCCESS</div>
+    }
+    else
+    {
+        <div>FAILURE</div>
+        <div>@Model.Message</div>
+    }
+}
+
+@using (Html.BeginForm("Login", "User", FormMethod.Post))
+{
+<table>
+    <tr>
+        <td>Username</td>
+        <td>@Html.TextBoxFor(m => m.Username)</td>
+    </tr>
+    <tr>
+        <td>Password</td>
+        <td>@Html.PasswordFor(m => m.Password)</td>
+    </tr>
+    <tr>
+        <td><button type="submit">Login</button></td>
+        <td></td>
+    </tr>
+</table>
+}

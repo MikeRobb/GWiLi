@@ -23,7 +23,7 @@ namespace GWiLi.Areas.List
             context.MapRoute(
                 "List_default",
                 "{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { controller = "List", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

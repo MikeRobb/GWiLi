@@ -12,27 +12,33 @@ namespace GWiLi.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class List
+    public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public List()
+        public User()
         {
-            this.Items = new HashSet<Item>();
-            this.Participants = new HashSet<User>();
+            this.ItemActivities = new HashSet<ItemActivity>();
+            this.OwnedLists = new HashSet<List>();
+            this.ParticipationLists = new HashSet<List>();
+            this.UserEmails = new HashSet<UserEmail>();
         }
     
         public int Id { get; set; }
         public int StatusId { get; set; }
-        public int OwnerId { get; set; }
-        public int PrivacyId { get; set; }
-        public string DisplayName { get; set; }
+        public string FirstName { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public byte[] Hash { get; set; }
+        public byte[] Salt { get; set; }
     
         public virtual Status Status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Item> Items { get; set; }
-        public virtual Privacy Privacy { get; set; }
-        public virtual User Owner { get; set; }
+        public virtual ICollection<ItemActivity> ItemActivities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Participants { get; set; }
+        public virtual ICollection<List> OwnedLists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<List> ParticipationLists { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserEmail> UserEmails { get; set; }
     }
 }
